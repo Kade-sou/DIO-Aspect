@@ -2,38 +2,40 @@
 /*                                                                            */
 /*                                                                            */
 /*                                                                            */
-/*   				Main.cpp 			              */
+/*   				ContaClass.hpp 			              */
 /*                                                                            */
 /*                                                                            */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <ac++/aspect.h>
-#include "ContaClass.hpp"
+#ifndef CONTACLASS_HPP
+# define CONTACLASS_HPP
+# include <iostream>
 
-aspect SaldoAspect {
-    pointcut todasAsContas() : execution(".* ContaBancaria::realizarSaque(double)");
+class ContaBancaria {
+public:
+    ContaBancaria(double saldoInicial) : saldo(saldoInicial) {}
 
-    advice todasAsContas() : before() {
-        if (valorDoSaque > thisJoinPoint->target()->getSaldo()) {
-            std::cout << "Saldo insuficiente para realizar o saque de $" << valorDoSaque << "." << std::endl;
-            abort();  
-	}
+    virtual void realizarSaque(double valor) {
+        valorDoSaque = valor;
+    }
+
+    double getSaldo() const {
+        return saldo;
     }
 
 private:
-    double valorDoSaque;
+    double saldo;
 };
 
+class ContaCorrente : public ContaBancaria {
+public:
+    ContaCorrente(double saldoInicial) : ContaBancaria(saldoInicial) {}
+};
 
-int main() {
-    ContaCorrente cc(1000.0);
-    ContaSalario cs(500.0);
+class ContaSalario : public ContaBancaria {
+public:
+    ContaSalario(double saldoInicial) : ContaBancaria(saldoInicial) {}
+};
 
-    cc.realizarSaque(800.0);
-    cs.realizarSaque(600.0);
-
-    return 0;
-}
-
+#endif
