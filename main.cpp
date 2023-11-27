@@ -9,23 +9,8 @@
 /* ************************************************************************** */
 
 #include <iostream>
-#include <ac++/aspect.h>
+#include "aspect.ah"
 #include "ContaClass.hpp"
-
-aspect SaldoAspect {
-    pointcut todasAsContas() : execution(".* ContaBancaria::realizarSaque(double)");
-
-    advice todasAsContas() : before() {
-        if (valorDoSaque > thisJoinPoint->target()->getSaldo()) {
-            std::cout << "Saldo insuficiente para realizar o saque de $" << valorDoSaque << "." << std::endl;
-            abort();  
-	}
-    }
-
-private:
-    double valorDoSaque;
-};
-
 
 int main() {
     ContaCorrente cc(1000.0);

@@ -1,0 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                                            */
+/*                                                                            */
+/*   				Main.cpp 			              */
+/*                                                                            */
+/*                                                                            */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef __ASPECT_AH__
+#define __ASPECT_AH__
+
+#include <iostream>
+
+aspect SaldoAspect {
+    pointcut = todasAsContas() : 
+        execution(".* ContaBancaria::realizarSaque(double)");
+
+    advice todasAsContas() : before() {
+        if (valorDoSaque > thisJoinPoint->target()->getSaldo()) {
+            std::cout << "Saldo insuficiente para realizar o saque de $" << valorDoSaque << "." << std::endl;
+            abort();
+        }
+    }
+
+private:
+    double valorDoSaque;
+};
+
+#endif
+

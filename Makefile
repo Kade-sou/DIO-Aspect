@@ -2,16 +2,15 @@ SRC = main.cpp
 
 OBJ = ${SRC:.cpp=.o}
 
-CC = c++
-FLAGS = -Wall -Wextra -Werror
+CC = ./aspectc++/ag++
 RM = rm -rf
-NAME = aspect
+NAME = done
 
 .cpp.o:
-	${CC} ${FLAGS} -c $< -o ${<:.cpp=.o}
+	${CC} -c $< -o ${<:.cpp=.o}
 
 ${NAME}: ${OBJ}
-	${CC} ${FLAGS} ${OBJ} -o ${NAME}
+	${CC} ${OBJ} -o ${NAME}
 
 all: ${NAME}
 	./$(NAME)

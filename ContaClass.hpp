@@ -17,7 +17,7 @@ public:
     ContaBancaria(double saldoInicial) : saldo(saldoInicial) {}
 
     virtual void realizarSaque(double valor) {
-        valorDoSaque = valor;
+        double valorDoSaque = valor;
     }
 
     double getSaldo() const {
